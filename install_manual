@@ -1,0 +1,30 @@
+系统环境: CentOS Linux 7 x64
+必要前提条件: 已经安装gcc, git, python 2.7, pip(名字为python-pip),
+              mysql(需要安装社区版), python-devel, mysql-devel,安装命令
+              示意如下：
+yum install gcc git python python-pip mysql python-devel mysql-devel
+配置步骤：
+1.将代码解压至一个文件夹内，保证至少有644的文件权限
+2.切换到project目录，使用root帐号执行
+pip install -r requirements.txt
+3.在project下新建instance目录，目录下新建'__init__.py', 'config.py',
+  其中__init__.py留空,在config.py写入：
+
+# -*- coding: utf-8 -*-
+# config for db/key, etc -- private & personal
+DEBUG = True
+SECRET_KEY = 'key'
+SQLALCHEMY_DATABASE_URI = 'mysql://user:pass@localhost/test'
+
+其中key为自定义的字符串，mysql地址中user和pass为登录mysql的用户和密码
+4.用一般用户身份运行project目录下的init_db.py，用于初始化数据库
+5.运行./start.sh启动，可实现本机访问
+
+需要开启其他计算机的访问请继续以下步骤：
+6.修改project目录下的config.py,将DEBUG=True改为DEBUG=False
+7.修改project目录下的run.py,将app.manager.run()
+  改成realapp.run(host='0.0.0.0')
+8.运行./start.sh启动
+
+
+
